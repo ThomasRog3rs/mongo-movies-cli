@@ -1,0 +1,12 @@
+name: dart_movie_app
+description: A console app to view and manage Movies from a node API
+version: 1.0.0
+
+environment:
+  sdk: ">=3.6.0 <4.0.0"
+
+dependencies:
+  http: ^1.2.2
+
+executables:
+  dart_movie_app: main.dart
