@@ -116,6 +116,6 @@ void printMovieById() async{
 		return;	
 	}
 
-	print("The Found movie: ");
-	print(theMovie.toString());
+	print("\nThe Found movie: ");
+	print(theMovie.toDetailedString());
 }

@@ -43,4 +43,18 @@ class Movie {
     String toString(){
         return "Movie Name: ${title}\nMovie ID: ${id}\n";
     }
+
+    String toDetailedString(){
+        return '''
+    Movie Name: $title
+    Movie ID: $id
+    Release Year: $releaseYear
+    Rated: $rated
+    Actors: $actors
+    Plot: ${plot ?? "N/A"}
+    Director: $director
+    Stars: $stars
+    Poster URL: ${posterUrl ?? "N/A"}
+        ''';
+    }
 }
