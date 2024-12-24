@@ -1,7 +1,17 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'movie-model.dart';
 
-void main(){
+void main() async {
 	print('Hello, World!');
+
+	final response = await http.get(Uri.parse("http://localhost:5000/api/get-all-movies"));
+
+	print(response);
+
+	List<dynamic> dataFromApi = json.decode(response.body);
+
+	print(dataFromApi);
 
 	List<Map<String, dynamic>> moviesData = [
 		{
