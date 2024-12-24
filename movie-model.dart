@@ -7,6 +7,7 @@ class Movie {
     final String director;
     final int stars;
     final String? posterUrl;
+    final int id;
 
     Movie(
         this.title,
@@ -16,7 +17,8 @@ class Movie {
         this.plot,
         this.director,
         this.stars,
-        this.posterUrl
+        this.posterUrl,
+        this.id
     );
 
     factory Movie.fromJson(Map<String, dynamic> json){
@@ -33,6 +35,12 @@ class Movie {
             json["director"],
             json["stars"],
             json["posterUrl"],
+            json["id"]
         );
+    }
+
+    @override
+    String toString(){
+        return "Movie Name: ${title}\nMovie ID: ${id}\n";
     }
 }
