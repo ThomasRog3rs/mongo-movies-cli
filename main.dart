@@ -35,11 +35,13 @@ What would you like to do?\n
 	''');
 
 	print("Enter your option: ");
-	String? userOption = stdin.readLineSync();
+	final String? userOption = stdin.readLineSync();
 
 	switch(userOption){
 		case "1":
 			printAllMovies(movies);
+		case "2":
+			printMovieById();
 		default:
 			print("invalid option");
 	}
@@ -48,11 +50,11 @@ What would you like to do?\n
 Future<List<Movie>> getMovies() async {
 	final response = await http.get(Uri.parse("http://localhost:5000/api/get-all-movies"));
 
-	List<dynamic> movieJson = json.decode(response.body);
+	List<dynamic> moviesJson = json.decode(response.body);
 
 	List<Movie> movies = [];
 
-	for(final movie in movieJson){
+	for(final movie in moviesJson){
 		try{
 			final Movie theMovie = Movie.fromJson(movie);
 			movies.add(theMovie);
@@ -65,9 +67,55 @@ Future<List<Movie>> getMovies() async {
 	return movies;
 }
 
+Future<Movie?> getMovieById(String id) async {
+	Map<String, String> headers = {
+		"id": id
+	};
+
+	final response = await http.get(
+		Uri.parse("http://localhost:5000/api/get-by-id"),
+		headers: headers
+	);
+
+	Map<String, dynamic> movieJson = json.decode(response.body);
+
+	if(movieJson["error"] != null){
+		print(movieJson["error"]);
+		return null;
+	}
+
+	final Movie theMovie = Movie.fromJson(movieJson);
+
+	return theMovie;
+}
+
 void printAllMovies(List<Movie> movies){
 	print("\nHere are all the movies:\n");
 	movies.forEach((movie){
 		print(movie.toString());
 	});
+}
+
+void printMovieById() async{
+	print("Please provide a movie id: ");
+	final String? movieId = stdin.readLineSync();
+
+	if(movieId == null || movieId.isEmpty){
+		print("No id provided, no movie found.");	
+		return;
+	}
+
+	if(int.tryParse(movieId) == null){
+		print("Ids must be numbers.");
+		return;
+	}
+
+	final Movie? theMovie = await getMovieById(movieId);
+	
+	if(theMovie == null){
+		return;	
+	}
+
+	print("The Found movie: ");
+	print(theMovie.toString());
 }
