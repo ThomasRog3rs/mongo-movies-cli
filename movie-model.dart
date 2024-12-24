@@ -8,7 +8,7 @@ class Movie {
     final int stars;
     final String? posterUrl;
 
-    Movie._(
+    Movie(
         this.title,
         this.releaseYear,
         this.rated,
@@ -23,8 +23,8 @@ class Movie {
         json.forEach((key, value) {
             if(value == null) throw "${key} is null in the data.";
         });
-        
-        return Movie._(
+
+        return Movie(
             json["title"],
             json["releaseYear"],
             json["rated"],
