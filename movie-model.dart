@@ -7,7 +7,7 @@ class Movie {
     final String director;
     final int stars;
     final String? posterUrl;
-    final int id;
+    final int? id;
 
     Movie(
         this.title,

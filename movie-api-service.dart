@@ -73,13 +73,24 @@ Future<Movie?> getMovieById(String id) async {
 	return theMovie;
 }
 
-Future<Movie?> addMovie(Map<String, dynamic> movieToAdd) async {
+Future<Movie?> addMovie(Map<String, String> movieToAdd) async {
     // Map<String, dynamic> movieToAddJson = json.encode(movieToAdd);
 
-    final response = await http.post(
-        Uri.parse("http://localhost:5000/api/add-movie"),
-        body: movieToAdd
-    );
+    print(movieToAdd);
+
+    http.Response response;
+
+    try{
+        response = await http.post(
+            Uri.parse("http://localhost:5000/api/add-movie"),
+            body: movieToAdd
+        );
+    }catch (e,s){
+        print("Fail: $e");
+        print("$s");
+        return null;
+    }
+
 
     Map<String, dynamic> newMovieJson = json.decode(response.body);
 
