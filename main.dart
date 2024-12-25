@@ -15,7 +15,8 @@ void main() async {
 		print("StackTrace: $stackTrace");
 	}
 
-	print("You currently have ${movies.length} movies stored");
+	print("Welcome to Mongo Movies Console App!");
+	print("You currently have ${movies.length} movies stored.");
 
 	bool appRunning = true;
 	while(appRunning){
