@@ -39,11 +39,10 @@ void main() async {
 				break;
 			case "4":
 				await createAndDisplayNewMovie();
-				returnToMenu();
 				break;
 			case "5":
 				print("Feature coming soon");
-				returnToMenu();
+				navigateToMenu();
 				break;
 			case "6":
 				appRunning = false;

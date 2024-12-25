@@ -5,7 +5,7 @@ import 'movie-api-service.dart';
 void displayAllMovies(List<Movie> movies){
 	if(movies.length == 0){
 		print("No movies foud.");
-		returnToMenu();
+		navigateToMenu();
 		return;
 	}
 
@@ -14,7 +14,7 @@ void displayAllMovies(List<Movie> movies){
 		print(movie.toString());
 	});
 
-	returnToMenu();
+	navigateToMenu();
 }
 
 Future<void>  displayMovieDetailsById() async{
@@ -23,27 +23,27 @@ Future<void>  displayMovieDetailsById() async{
 
 	if(movieId == null || movieId.isEmpty){
 		print("No id provided, no movie found.");	
-		returnToMenu();
+		navigateToMenu();
 		return;
 	}
 
 	if(int.tryParse(movieId) == null){
 		print("Ids must be numbers.");
-		returnToMenu();
+		navigateToMenu();
 		return;
 	}
 
 	final Movie? theMovie = await getMovieById(movieId);
 	
 	if(theMovie == null){
-		returnToMenu();
+		navigateToMenu();
 		return;
 	}
 
 	print("\nThe Found movie: ");
 	print(theMovie.toDetailedString());
 
-	returnToMenu();
+	navigateToMenu();
 }
 
 Future<void> searchAndDisplayMovies() async{
@@ -52,7 +52,7 @@ Future<void> searchAndDisplayMovies() async{
 
 	if(searchValue == null || searchValue.isEmpty){
 		print("No search term provided");
-		returnToMenu();
+		navigateToMenu();
 		return;
 	}
 
@@ -60,7 +60,7 @@ Future<void> searchAndDisplayMovies() async{
 
 	if(foundMovies.length == 0){
 		print("No movies for search '${searchValue}' was found.");
-		returnToMenu();
+		navigateToMenu();
 		return;
 	}
 
@@ -69,11 +69,30 @@ Future<void> searchAndDisplayMovies() async{
 		print(movie.toDetailedString());
 	});
 
-	returnToMenu();
+	navigateToMenu();
 }
 
 Future<void> createAndDisplayNewMovie() async {
-	print("To be implimented")
+	print("Please provide details to the movie that you want to create: \n");
+
+	print("Movie Name :");
+	final String? movieName = stdin.readLineSync();
+
+	Map<String, dynamic> theMovieToAdd = {
+		"title": movieName
+	};
+
+	print(theMovieToAdd);
+
+	Movie? addedMovie = await addMovie(theMovieToAdd);
+
+	if(addedMovie == null){
+		print("\nFailed to add new movie.");
+		navigateToMenu();
+		return;
+	}
+
+	print(addedMovie.toString());
 }
 
 void printMenu(){

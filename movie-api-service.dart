@@ -72,3 +72,29 @@ Future<Movie?> getMovieById(String id) async {
 
 	return theMovie;
 }
+
+Future<Movie?> addMovie(Map<String, dynamic> movieToAdd) async {
+    // Map<String, dynamic> movieToAddJson = json.encode(movieToAdd);
+
+    final response = await http.post(
+        Uri.parse("http://localhost:5000/api/add-movie"),
+        body: movieToAdd
+    );
+
+    Map<String, dynamic> newMovieJson = json.decode(response.body);
+
+
+	if(newMovieJson["error"] != null){
+		print(newMovieJson["error"]);
+		return null;
+	}
+
+    if(newMovieJson["_message"] != null){
+		print(newMovieJson["message"]);
+		return null;
+	}
+
+    final Movie theNewMovie = Movie.fromJson(newMovieJson);
+
+    return theNewMovie;
+}
