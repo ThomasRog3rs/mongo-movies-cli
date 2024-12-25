@@ -29,16 +29,16 @@ void main() async {
 
 		switch(userOption){
 			case "1":
-				printAllMovies(movies);
+				displayAllMovies(movies);
 				break;
 			case "2":
-				await printMovieById();
+				await displayMovieDetailsById();
 				break;
 			case "3":
-				await printMovieSearch();
+				await searchAndDisplayMovies();
 				break;
 			case "4":
-				print("Feature coming soon");
+				await createAndDisplayNewMovie();
 				returnToMenu();
 				break;
 			case "5":

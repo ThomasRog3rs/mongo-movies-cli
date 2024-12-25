@@ -2,7 +2,7 @@ import 'dart:io';
 import 'movie-model.dart';
 import 'movie-api-service.dart';
 
-void printAllMovies(List<Movie> movies){
+void displayAllMovies(List<Movie> movies){
 	if(movies.length == 0){
 		print("No movies foud.");
 		returnToMenu();
@@ -17,7 +17,7 @@ void printAllMovies(List<Movie> movies){
 	returnToMenu();
 }
 
-Future<void>  printMovieById() async{
+Future<void>  displayMovieDetailsById() async{
 	print("Please provide a movie id: ");
 	final String? movieId = stdin.readLineSync();
 
@@ -46,7 +46,7 @@ Future<void>  printMovieById() async{
 	returnToMenu();
 }
 
-Future<void> printMovieSearch() async{
+Future<void> searchAndDisplayMovies() async{
 	print("Please provide your search term: ");
 	final String? searchValue = stdin.readLineSync();
 
@@ -72,6 +72,10 @@ Future<void> printMovieSearch() async{
 	returnToMenu();
 }
 
+Future<void> createAndDisplayNewMovie() async {
+	print("To be implimented")
+}
+
 void printMenu(){
 	print('''
 What would you like to do?\n
@@ -84,7 +88,7 @@ What would you like to do?\n
 	''');
 }
 
-void returnToMenu(){
+void navigateToMenu(){
 	print("Press any ENTER to go back to menu");
 	stdin.readLineSync();
 	clearConsole();
