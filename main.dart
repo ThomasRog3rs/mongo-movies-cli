@@ -1,8 +1,7 @@
-import 'dart:convert';
 import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'movie-model.dart';
-
+import "movie-interaction.dart";
+import "movie-api-service.dart";
 
 void main() async {
 	List<Movie> movies = [];
@@ -42,80 +41,9 @@ What would you like to do?\n
 			printAllMovies(movies);
 		case "2":
 			printMovieById();
+		case "3":
+			printMovieSearch();
 		default:
 			print("invalid option");
 	}
-}
-
-Future<List<Movie>> getMovies() async {
-	final response = await http.get(Uri.parse("http://localhost:5000/api/get-all-movies"));
-
-	List<dynamic> moviesJson = json.decode(response.body);
-
-	List<Movie> movies = [];
-
-	for(final movie in moviesJson){
-		try{
-			final Movie theMovie = Movie.fromJson(movie);
-			movies.add(theMovie);
-		}catch(error){
-			print("Error, movie was not added to list: $error");
-			continue;
-		}
-	}
-
-	return movies;
-}
-
-Future<Movie?> getMovieById(String id) async {
-	Map<String, String> headers = {
-		"id": id
-	};
-
-	final response = await http.get(
-		Uri.parse("http://localhost:5000/api/get-by-id"),
-		headers: headers
-	);
-
-	Map<String, dynamic> movieJson = json.decode(response.body);
-
-	if(movieJson["error"] != null){
-		print(movieJson["error"]);
-		return null;
-	}
-
-	final Movie theMovie = Movie.fromJson(movieJson);
-
-	return theMovie;
-}
-
-void printAllMovies(List<Movie> movies){
-	print("\nHere are all the movies:\n");
-	movies.forEach((movie){
-		print(movie.toString());
-	});
-}
-
-void printMovieById() async{
-	print("Please provide a movie id: ");
-	final String? movieId = stdin.readLineSync();
-
-	if(movieId == null || movieId.isEmpty){
-		print("No id provided, no movie found.");	
-		return;
-	}
-
-	if(int.tryParse(movieId) == null){
-		print("Ids must be numbers.");
-		return;
-	}
-
-	final Movie? theMovie = await getMovieById(movieId);
-	
-	if(theMovie == null){
-		return;	
-	}
-
-	print("\nThe Found movie: ");
-	print(theMovie.toDetailedString());
 }
