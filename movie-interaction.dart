@@ -5,45 +5,54 @@ import 'movie-api-service.dart';
 void printAllMovies(List<Movie> movies){
 	if(movies.length == 0){
 		print("No movies foud.");
+		returnToMenu();
 		return;
 	}
-	
+
 	print("\nHere are all the movies:\n");
 	movies.forEach((movie){
 		print(movie.toString());
 	});
+
+	returnToMenu();
 }
 
-void printMovieById() async{
+Future<void>  printMovieById() async{
 	print("Please provide a movie id: ");
 	final String? movieId = stdin.readLineSync();
 
 	if(movieId == null || movieId.isEmpty){
 		print("No id provided, no movie found.");	
+		returnToMenu();
 		return;
 	}
 
 	if(int.tryParse(movieId) == null){
 		print("Ids must be numbers.");
+		returnToMenu();
 		return;
 	}
 
 	final Movie? theMovie = await getMovieById(movieId);
 	
 	if(theMovie == null){
-		return;	
+		returnToMenu();
+		return;
 	}
 
 	print("\nThe Found movie: ");
 	print(theMovie.toDetailedString());
+
+	returnToMenu();
 }
 
-void printMovieSearch() async{
+Future<void> printMovieSearch() async{
 	print("Please provide your search term: ");
 	final String? searchValue = stdin.readLineSync();
 
 	if(searchValue == null || searchValue.isEmpty){
 		print("No search term provided");
+		returnToMenu();
 		return;
 	}
 
@@ -51,6 +60,7 @@ void printMovieSearch() async{
 
 	if(foundMovies.length == 0){
 		print("No movies for search '${searchValue}' was found.");
+		returnToMenu();
 		return;
 	}
 
@@ -58,4 +68,34 @@ void printMovieSearch() async{
 	foundMovies.forEach((movie){
 		print(movie.toDetailedString());
 	});
+
+	returnToMenu();
+}
+
+void printMenu(){
+	print('''
+What would you like to do?\n
+[1] View all current movies
+[2] View one movie (by id)
+[3] Search Movies (by Name)
+[4] Add a new movie
+[5] Delete a movie
+[6] Exit app
+	''');
+}
+
+void returnToMenu(){
+	print("Press any ENTER to go back to menu");
+	stdin.readLineSync();
+	clearConsole();
+}
+
+void clearConsole() {
+  if (Platform.isWindows) {
+    // Windows command to clear the console
+    print(Process.runSync('cls', [], runInShell: true).stdout);
+  } else {
+    // Unix/Linux/macOS command to clear the console
+    print(Process.runSync('clear', [], runInShell: true).stdout);
+  }
 }
