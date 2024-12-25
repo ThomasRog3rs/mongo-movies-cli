@@ -36,6 +36,14 @@ void main() async {
 			case "3":
 				await printMovieSearch();
 				break;
+			case "4":
+				print("Feature coming soon");
+				returnToMenu();
+				break;
+			case "5":
+				print("Feature coming soon");
+				returnToMenu();
+				break;
 			case "6":
 				appRunning = false;
 				break;
