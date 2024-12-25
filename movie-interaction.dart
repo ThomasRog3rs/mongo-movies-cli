@@ -3,6 +3,11 @@ import 'movie-model.dart';
 import 'movie-api-service.dart';
 
 void printAllMovies(List<Movie> movies){
+	if(movies.length == 0){
+		print("No movies foud.");
+		return;
+	}
+	
 	print("\nHere are all the movies:\n");
 	movies.forEach((movie){
 		print(movie.toString());
@@ -33,6 +38,24 @@ void printMovieById() async{
 	print(theMovie.toDetailedString());
 }
 
-void printMovieSearch(){
-	print("searching...");
+void printMovieSearch() async{
+	print("Please provide your search term: ");
+	final String? searchValue = stdin.readLineSync();
+
+	if(searchValue == null || searchValue.isEmpty){
+		print("No search term provided");
+		return;
+	}
+
+	final List<Movie> foundMovies = await searchMovies(searchValue);
+
+	if(foundMovies.length == 0){
+		print("No movies for search '${searchValue}' was found.");
+		return;
+	}
+
+	print("\nHere are the found movies for search '${searchValue}':\n");
+	foundMovies.forEach((movie){
+		print(movie.toDetailedString());
+	});
 }

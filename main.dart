@@ -15,12 +15,12 @@ void main() async {
 		print("StackTrace: $stackTrace");
 	}
 
-	assert(movies.length > 0, "No Movies, could have failed to fetch");
+	//assert(movies.length > 0, "No Movies, could have failed to fetch");
 
-	if(movies.length <= 0){
-		print("No movies found, would you like to add some movies?");
-		return;
-	}
+	// if(movies.length <= 0){
+	// 	print("No movies found, would you like to add some movies?");
+	// 	return;
+	// }
 
 	print("You currently have ${movies.length} movies stored");
 
