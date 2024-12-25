@@ -139,7 +139,6 @@ Future<void> createAndDisplayNewMovie() async {
 	print("Poster URL (optional):");
 	final String? posterUrl = stdin.readLineSync();
 
-	// Create a map for the movie details
 	Map<String, String> theMovieToAdd = {
 		"title": movieName.trim(),
 		"releaseYear": releaseYearInput ?? "",
@@ -154,10 +153,8 @@ Future<void> createAndDisplayNewMovie() async {
 	print("\nCreating the movie with the following details:");
 	print(theMovieToAdd);
 
-	// Add the movie using the API service
 	Movie? addedMovie = await addMovie(theMovieToAdd);
 
-	// Handle the response
 	if (addedMovie == null) {
 		print("\nFailed to add new movie.");
 		navigateToMenu();
@@ -168,6 +165,28 @@ Future<void> createAndDisplayNewMovie() async {
 	print(addedMovie.toDetailedString());
 
 	navigateToMenu();
+}
+
+Future<void> deleteMovieAndShowDetails() async {
+	print("Please provide the ID of the movie you want to Delete: ");
+	final String? movieIdInput = stdin.readLineSync();
+	final int? movieId = int.tryParse(movieIdInput ?? "");
+
+	if(movieId == null){
+		print("Movie ID must be a number.");
+		navigateToMenu();
+		return;
+	}
+
+	try{
+		await deleteMovieById(movieIdInput!);
+		navigateToMenu();
+		return;
+	}catch(error){
+		print("Something failed in the deletion process: $error");
+		navigateToMenu();
+		return;
+	}	
 }
 
 void printMenu(){

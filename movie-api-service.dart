@@ -74,12 +74,7 @@ Future<Movie?> getMovieById(String id) async {
 }
 
 Future<Movie?> addMovie(Map<String, String> movieToAdd) async {
-    // Map<String, dynamic> movieToAddJson = json.encode(movieToAdd);
-
-    print(movieToAdd);
-
     http.Response response;
-
     try{
         response = await http.post(
             Uri.parse("http://localhost:5000/api/add-movie"),
@@ -90,7 +85,6 @@ Future<Movie?> addMovie(Map<String, String> movieToAdd) async {
         print("$s");
         return null;
     }
-
 
     Map<String, dynamic> newMovieJson = json.decode(response.body);
 
@@ -105,7 +99,32 @@ Future<Movie?> addMovie(Map<String, String> movieToAdd) async {
 		return null;
 	}
 
+    if(newMovieJson["errorResponse"] != null){
+        print(newMovieJson['errorResponse']['errmsg']);
+        return null;
+    }
+
     final Movie theNewMovie = Movie.fromJson(newMovieJson);
 
     return theNewMovie;
+}
+
+Future<void> deleteMovieById(String movieId) async{
+    Map<String, String> headers = {
+        "id": movieId
+    };
+
+    final response = await http.delete(
+        Uri.parse("http://localhost:5000/api/delete"),
+        headers: headers
+    );
+
+    Map<String, dynamic> responseJson = json.decode(response.body);
+
+    if(responseJson["error"] != null){
+        print(responseJson["error"]);
+        return;
+    }
+
+    print("${responseJson["message"]}");
 }

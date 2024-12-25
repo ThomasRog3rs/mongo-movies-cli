@@ -41,8 +41,7 @@ void main() async {
 				await createAndDisplayNewMovie();
 				break;
 			case "5":
-				print("Feature coming soon");
-				navigateToMenu();
+				await deleteMovieAndShowDetails();
 				break;
 			case "6":
 				appRunning = false;
