@@ -16,7 +16,7 @@ Future<bool> apiHealth() async {
             return true;
         }
     }catch(error, stackTace){
-        print("Failed to connect to the API: $error \nStack Trace: '$stackTace'");
+        // print("Failed to connect to the API: $error \nStack Trace: '$stackTace'");
     }
 
     return false;

@@ -8,7 +8,7 @@ void main() async {
 
 	final bool isApiAlive = await apiHealth();
 	if(!isApiAlive){
-		print("Cannot connect to the Mogo Movies API, please try again later.");
+		print("Cannot connect to the Mongo Movies API, please try again later.");
 		return;
 	}
 
