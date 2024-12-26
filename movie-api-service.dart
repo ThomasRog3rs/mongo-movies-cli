@@ -1,7 +1,26 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:http_status/http_status.dart';
 import 'movie-model.dart';
+
+Future<bool> apiHealth() async {
+    http.Response response;
+
+    try{
+        response = await http.get(Uri.parse("http://localhost:5000/api/health"));
+        
+        final resJson = json.decode(response.body);
+
+        if(response.statusCode == HttpStatusCode.ok && resJson["health"] == true){
+            return true;
+        }
+    }catch(error, stackTace){
+        print("Failed to connect to the API: $error \nStack Trace: '$stackTace'");
+    }
+
+    return false;
+}
 
 Future<List<Movie>> getMovies() async {
 	final response = await http.get(Uri.parse("http://localhost:5000/api/get-all-movies"));

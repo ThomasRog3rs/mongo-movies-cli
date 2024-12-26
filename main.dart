@@ -5,6 +5,13 @@ import "movie-api-service.dart";
 
 void main() async {
 	print("Welcome to Mongo Movies Console App!");
+
+	final bool isApiAlive = await apiHealth();
+	if(!isApiAlive){
+		print("Cannot connect to the Mogo Movies API, please try again later.");
+		return;
+	}
+
 	await displayMovieCount();
 
 	bool appRunning = true;
@@ -18,7 +25,7 @@ void main() async {
 
 		switch(userOption){
 			case "1":
-				displayAllMovies();
+				await displayAllMovies();
 				break;
 			case "2":
 				await displayMovieDetailsById();
