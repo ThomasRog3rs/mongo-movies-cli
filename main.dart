@@ -4,19 +4,8 @@ import "movie-interaction.dart";
 import "movie-api-service.dart";
 
 void main() async {
-	List<Movie> movies = [];
-
-	try{
-		movies = await getMovies();
-	}on SocketException{
-		print("Failed to connect to API, can't fetch movies");
-	}on Exception catch(error, stackTrace) {
-		print("Failed to fetch movies: $error");
-		print("StackTrace: $stackTrace");
-	}
-
 	print("Welcome to Mongo Movies Console App!");
-	print("You currently have ${movies.length} movies stored.");
+	await displayMovieCount();
 
 	bool appRunning = true;
 	while(appRunning){
@@ -29,7 +18,7 @@ void main() async {
 
 		switch(userOption){
 			case "1":
-				displayAllMovies(movies);
+				displayAllMovies();
 				break;
 			case "2":
 				await displayMovieDetailsById();

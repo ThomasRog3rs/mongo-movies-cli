@@ -2,7 +2,18 @@ import 'dart:io';
 import 'movie-model.dart';
 import 'movie-api-service.dart';
 
-void displayAllMovies(List<Movie> movies){
+Future<void> displayAllMovies() async{
+	List<Movie> movies = [];
+
+	try{
+		movies = await getMovies();
+	}on SocketException{
+		print("Failed to connect to API, can't get movies");
+	}on Exception catch(error, stackTrace) {
+		print("Failed to get movies: $error");
+		print("StackTrace: $stackTrace");
+	}
+
 	if(movies.length == 0){
 		print("No movies foud.");
 		navigateToMenu();
@@ -15,6 +26,23 @@ void displayAllMovies(List<Movie> movies){
 	});
 
 	navigateToMenu();
+}
+
+Future<void> displayMovieCount() async{
+	List<Movie> movies = [];
+
+	try{
+		movies = await getMovies();
+	}on SocketException{
+		print("Failed to connect to API, can't get movies");
+		return;
+	}on Exception catch(error, stackTrace) {
+		print("Failed to get movies: $error");
+		print("StackTrace: $stackTrace");
+		return;
+	}
+
+	print("You currently have ${movies.length} movies stored in mongoDb.");
 }
 
 Future<void> displayMovieDetailsById() async{
